@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -12,12 +13,20 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    private String description;
+    Timestamp created;
 
     public Item() {
     }
 
     public Item(String name) {
         this.name = name;
+    }
+
+    public Item(String name, String description, Timestamp created) {
+        this.name = name;
+        this.description = description;
+        this.created = created;
     }
 
     public Integer getId() {
@@ -39,22 +48,23 @@ public class Item {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Item)) return false;
         Item item = (Item) o;
-        return Objects.equals(id, item.id) &&
-                Objects.equals(name, item.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
+        return getId().equals(item.getId()) && getName().equals(item.getName()) && description.equals(item.description) && created.equals(item.created);
     }
 
     @Override
     public String toString() {
-        return "{" +
-                "id='" + id + '\'' +
+        return "Item{" +
+                "id=" + id +
                 ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", created=" + created +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), description, created);
     }
 }
