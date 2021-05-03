@@ -14,7 +14,7 @@ public class Item {
     private Integer id;
     private String name;
     private String description;
-    Timestamp created;
+    private Timestamp created;
 
     public Item() {
     }
