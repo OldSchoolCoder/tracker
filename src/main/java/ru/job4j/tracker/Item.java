@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     private String name;
     private String description;
     private Timestamp created;
@@ -50,7 +50,7 @@ public class Item {
         if (this == o) return true;
         if (!(o instanceof Item)) return false;
         Item item = (Item) o;
-        return getId().equals(item.getId()) && getName().equals(item.getName()) && description.equals(item.description) && created.equals(item.created);
+        return getName().equals(item.getName()) && description.equals(item.description) && created.equals(item.created);
     }
 
     @Override
