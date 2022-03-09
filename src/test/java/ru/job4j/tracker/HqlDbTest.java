@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -20,10 +21,12 @@ public class HqlDbTest {
     private SessionFactory sessionFactory;
     private StandardServiceRegistry registry;
     private TestStore store;
+    private ArrayList<Item> itemsFromStore;
 
     @Before
     public void setUp() throws Exception {
         this.store = new TestStore();
+        this.itemsFromStore = new ArrayList<>();
         this.registry = new StandardServiceRegistryBuilder().configure().build();
         this.sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
         this.item = new Item("TestName", "TestDescription", new Timestamp(436746464L));
@@ -37,8 +40,8 @@ public class HqlDbTest {
     @Test
     public void addTest() {
         store.add(item);
-        List<Item> all = store.findAll();
-        Assert.assertEquals(item, all.get(0));
+        store.findAll(i -> itemsFromStore.add((Item) i));
+        Assert.assertEquals(List.of(item), itemsFromStore);
     }
 
     @Test
@@ -60,7 +63,8 @@ public class HqlDbTest {
     @Test
     public void findAllTest() {
         store.add(item);
-        Assert.assertEquals(List.of(item), store.findAll());
+        store.findAll(i -> itemsFromStore.add((Item) i));
+        Assert.assertEquals(List.of(item), itemsFromStore);
     }
 
     @Test

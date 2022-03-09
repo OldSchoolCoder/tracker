@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import ru.job4j.react.Observe;
+
 import java.util.List;
 
 public interface Store {
@@ -10,7 +12,7 @@ public interface Store {
 
     boolean delete(String id);
 
-    List<Item> findAll();
+    void findAll(Observe observe);
 
     List<Item> findByName(String key);
 

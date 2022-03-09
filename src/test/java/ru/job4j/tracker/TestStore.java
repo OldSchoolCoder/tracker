@@ -6,6 +6,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
+import ru.job4j.react.Observe;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -49,13 +50,13 @@ public class TestStore implements Store, AutoCloseable {
     }
 
     @Override
-    public List<Item> findAll() {
+    public void findAll(Observe observe) {
         Session session = sf.openSession();
         session.beginTransaction();
-        List result = session.createQuery("from ru.job4j.tracker.Item").list();
+        session.createQuery("from ru.job4j.tracker.Item")
+                .stream().forEach(observe::receive);
         session.getTransaction().commit();
         session.close();
-        return result;
     }
 
     @Override
