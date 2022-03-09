@@ -48,7 +48,6 @@ public class HbmTracker implements Store, AutoCloseable {
         return item != null;
     }
 
-
     @Override
     public void findAll(Observe observe) {
         Session session = sf.openSession();
